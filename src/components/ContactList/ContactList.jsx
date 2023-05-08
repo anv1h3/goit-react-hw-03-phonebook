@@ -1,28 +1,30 @@
 import PropTypes from 'prop-types';
-import { DeleteBtn } from './ContactList.styled';
 
-const ContactList = ({ visibleContact, deleteContacts }) => {
+export const ContactList = ({ contactsList, handleDelete }) => {
   return (
-    <ul>
-      {visibleContact.map(({ id, number, name }) => {
-        return (
-          <li key={id}>
-            <span>
-              {name}: {number}
-            </span>
-            <DeleteBtn type="button" onClick={() => deleteContacts(id)}>
+    <div>
+      <ul>
+        {contactsList.map(contact => (
+          <li key={contact.id}>
+            {contact.name}: {contact.number}
+            <button
+              type="button"
+              onClick={() => handleDelete(contact.id)}
+              style={{
+                marginLeft: 5,
+              }}
+            >
               Delete
-            </DeleteBtn>
+            </button>
           </li>
-        );
-      })}
-    </ul>
+        ))}
+      </ul>
+    </div>
   );
 };
 
 ContactList.propTypes = {
-  visibleContact: PropTypes.arrayOf(PropTypes.object).isRequired,
-  deleteContacts: PropTypes.func.isRequired,
+  contactsList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string))
+    .isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
-
-export default ContactList;
